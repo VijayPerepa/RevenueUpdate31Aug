@@ -1,0 +1,71 @@
+table Table1
+	lineageTag: 2955ce80-d2cd-4873-aa42-290d0b22aa62
+
+	measure Revenue = SUMX(Table1,Table1[Price] * Table1[Qty])
+		formatString: 0
+		lineageTag: 251ea08e-a2ce-42cd-8db7-838a304b238e
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 16b52ed9-6ab1-4756-9475-e9074b431890
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: bc63182b-96dd-46d1-85e2-b51e3e7a05a0
+			defaultHierarchy: LocalDateTable_1b8a1379-30f8-41f4-8176-26d29272bcf4.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Customer
+		dataType: string
+		lineageTag: b87fc1ac-1ec8-4f4b-8b48-13ebbfce2639
+		summarizeBy: none
+		sourceColumn: Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: 4e7ae742-9c05-4505-a4ee-034015b5e175
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column Price
+		dataType: int64
+		formatString: 0
+		lineageTag: 5e43c34a-4851-42ef-9ed0-6293bdc0b719
+		summarizeBy: sum
+		sourceColumn: Price
+
+		annotation SummarizationSetBy = Automatic
+
+	column Qty
+		dataType: int64
+		formatString: 0
+		lineageTag: 1d41fb6a-0c95-4fb8-88ac-0440f9efc1b0
+		summarizeBy: sum
+		sourceColumn: Qty
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Table1 = m
+		mode: import
+		source =
+				let
+				  Source = Excel.Workbook(File.Contents(filepath & filename), null, true),
+				  #"Navigation 1" = Source{[Item = "Table1", Kind = "Table"]}[Data],
+				  #"Changed column type" = Table.TransformColumnTypes(#"Navigation 1", {{"Date", type date}, {"Customer", type text}, {"Product", type text}, {"Price", Int64.Type}, {"Qty", Int64.Type}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

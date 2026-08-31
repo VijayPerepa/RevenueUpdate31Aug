@@ -1,0 +1,14 @@
+expression filename = "DevData.xlsx" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 1ca853e0-ce1f-4d2e-bfd3-582878e204b9
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression filepath = "C:\Users\VijayPerepa\Desktop\Deployement Pipeline\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 5b0f7ab9-466b-40b8-bdcf-9ebcf6d9a5f9
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
